@@ -15,4 +15,7 @@ export class ListaProdutos {
     {nome: 'Monitor Gamer', preco:4999.99},
     {nome: 'Headset Gamer', preco:699.99}
   ];
+  exibirProduto (nome: string) {
+    console.log ('Produto Selecionado:', nome);
+  }
 }

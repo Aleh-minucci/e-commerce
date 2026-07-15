@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, Input,Output } from '@angular/core';
 import { UpperCasePipe, CurrencyPipe} from '@angular/common';
 import { PrecoFormatadoPipe } from '../../pipes/preco-formatado-pipe';
+import { ListaProdutos } from '../lista-produtos/lista-produtos';
 @Component({
   selector: 'app-produto',
   imports: [UpperCasePipe, PrecoFormatadoPipe],
@@ -8,15 +9,7 @@ import { PrecoFormatadoPipe } from '../../pipes/preco-formatado-pipe';
   styleUrl: './produto.css',
 })
 export class Produto {
-//produto = 'Notebook';
-//preco = 1200.99;
-//mostrarPreco = true;
-//mostrarProduto = true;
-produtos  = [
-  {produto:'Monitor',preco: 1000},
-  {produto:'Teclado',preco: 300},
-  {produto:'Mouse',preco: 250},
-  {produto:'Cadeira',preco: 600},
-  {produto:'Placa de vídeo',preco: 2000}
-];
+  @Input() nome: string = '';
+  @Input() preco: number = 0;
+
 }

@@ -9,5 +9,5 @@ import { RouterOutlet, RouterLink } from '@angular/router';
   styleUrl: './app.css'
 })
 export class App {
-  protected readonly title = signal('e-commerce');
+  protected readonly title = signal('meu-prieiro-app');
 }

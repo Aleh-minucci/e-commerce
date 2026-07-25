@@ -1,5 +1,5 @@
-import { Component, signal, computed, effect } from '@angular/core';
-import { HttpClient } from '@angular/common/http'
+import { Component, signal, computed, effect, inject } from '@angular/core';
+import { ProdutosService } from '../produtos.service';
 import { Produto } from '../produto/produto';
 import { title } from 'process';
 
@@ -27,7 +27,7 @@ totalProdutos = computed(() => this.produtos().length);
  .reduce((total, item) => total + item.preco, 0);
  });
 
-constructor(private http: HttpClient) {
+constructor(private produtosService: ProdutosService) {
  
  this.carregarProdutos();
 
@@ -44,21 +44,15 @@ effect(() => {
  });
  }
  carregarProdutos() {
- 
  this.carregando.set(true);
 
- this.http.get<{ title: string; price: number }[]>
- ('https://fakestoreapi.com/products')
- .subscribe({
+ this.produtosService.buscarProdutos().subscribe({
  next: (dados) => {
-
- const produtosFormatados = dados.map(p => ({
-  nome: p.title,
- preco: p.price
- }));
- this.produtos.set(produtosFormatados);
- this.carregando.set(false); 
+ const produtos = this.produtosService.transformarProdutos(dados);
+ this.produtos.set(produtos);
+ this.carregando.set(false);
  },
+
  error: (erro) => {
  console.error('Erro ao carregar produtos:', erro);
  this.carregando.set(false); 

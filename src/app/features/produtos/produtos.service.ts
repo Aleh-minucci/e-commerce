@@ -11,7 +11,7 @@ preco: number;
 @Injectable({ providedIn: 'root' })
 export class ProdutosService {
 private http = inject(HttpClient);
-private API = 'https://fakestoreapi.com/products';
+private API = 'https://fakestoreapi.com/products-erro';
 buscarProdutos() {
 return this.http.get<ProdutoApi[]>(this.API);
 }

@@ -1,12 +1,16 @@
-import { Component, signal, computed, effect, inject } from '@angular/core';
-import { ProdutosService } from '../produtos.service';
+import { Component, signal } from '@angular/core';
 import { Produto } from '../produto/produto';
-import { title } from 'process';
+import { computed } from '@angular/core';
+import { PrecoFormatadoPipe } from '../../../shared/pipes/preco-formatado-pipe';
+import { UpperCasePipe } from '@angular/common';
+import { effect } from '@angular/core';
+import { ProdutosService } from '../produtos.service';
+import { inject } from '@angular/core';
 
 @Component({
   selector: 'app-lista-produtos',
   standalone: true,
-  imports: [Produto],
+  imports: [Produto, PrecoFormatadoPipe, UpperCasePipe],
   templateUrl: './lista-produtos.html',
   styleUrl: './lista-produtos.css',
 })
@@ -16,6 +20,7 @@ produtos = signal<{ nome: string; preco: number }[]>([]);
 produtoSelecionado = signal<string | null>(null);
 carrinho = signal<{ nome: string; preco: number }[]>([]);
 carregando = signal(true);
+erro = signal<string | null>(null)
 totalProdutos = computed(() => this.produtos().length);
  valorTotal = computed(() => {
  return this.produtos()
@@ -54,7 +59,8 @@ effect(() => {
  },
 
  error: (erro) => {
- console.error('Erro ao carregar produtos:', erro);
+ console.error('Erro ao carregar produtos:,', erro);
+ this.erro.set('Erro ao carregar os produtos. Verifique sua conexão e tente novamente!');
  this.carregando.set(false); 
  }
  });

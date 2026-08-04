@@ -1,15 +1,13 @@
 <!--<h2>
     Produto selecionado:
     @if (produtoSelecionado()) {
-      <strong style="color: rgb(22, 41, 216)">{{ produtoSelecionado() }}</strong>
+      <strong style="co<h2>Total de produtos: {{ totalProdutos() }}</h2>lor: rgb(22, 41, 216)">{{ produtoSelecionado() }}</strong>
     } @else {
       <span style="color: rgb(168, 14, 214)">Nenhum</span>
     }
   </h2>-->
-<section>
-  <h2>Produtos:</h2>
 
-  
+  <h2>Produtos:</h2>
   @if (carregando()) {
     <p>Carregando produtos...</p>
   }
@@ -24,6 +22,7 @@
   }
 
   @if (!carregando() && !erro()) {
+    <h2>Total de produtos: {{ totalProdutos() }}</h2>
     @for (item of produtos(); track item.nome) {
       <app-produto
         [nome]="item.nome"
@@ -34,11 +33,8 @@
     }
   }
 
-  <p><button mat-stroked-button color="primary" (click)="adicionarProduto()">Adicionar Produto</button></p>
-  <p><button (click)="substituirProdutos()">Substituir Lista</button></p>
-  <h2>Total de produtos: {{ totalProdutos() }}</h2>
-  <h3>Valor total: R$ {{ valorTotal() }}</h3>
-</section>
+  
+  
 
 <section>
   <hr />

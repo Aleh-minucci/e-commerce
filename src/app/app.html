@@ -1,15 +1,13 @@
-<!--Remove o projeto padrão angular cli-->
-<!--Adiciona o componente Produto para exiber as informacões do produto-->
-<h1> lojinha da Aleh </h1>
-<nav>
-    <a routerLink="/">Home</a> |
-    <a routerLink="/produtos">Produtos</a> |
-    <a routerLink="carrinho">Carrinho</a>
-</nav>
-<hr />
+<app-header> </app-header>
+<!--controle de autenticacao temporaria-->
+<main style=" padding: 20px;">
 
+<section style="margin-bottom: 20px;">
 <button (click)="login()">Login</button>
 <button (click)="logout()">Logout</button>
 <p>Status : {{ usuarioLogado() ? 'Logado' : 'Deslogado' }}</p>
-<hr>
+</section> 
+    
+</main>
+<!--conteude dinamico principal-->
 <router-outlet></router-outlet>

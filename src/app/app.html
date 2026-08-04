@@ -2,14 +2,14 @@
 <!--Adiciona o componente Produto para exiber as informacões do produto-->
 <h1> lojinha da Aleh </h1>
 <nav>
-    <a routerLink="/">Home</a>
-    <a routerLink="/produtos">Produtos</a>
+    <a routerLink="/">Home</a> |
+    <a routerLink="/produtos">Produtos</a> |
     <a routerLink="carrinho">Carrinho</a>
 </nav>
 <hr />
-<router-outlet></router-outlet>]
 
 <button (click)="login()">Login</button>
 <button (click)="logout()">Logout</button>
-
 <p>Status : {{ usuarioLogado() ? 'Logado' : 'Deslogado' }}</p>
+<hr>
+<router-outlet></router-outlet>

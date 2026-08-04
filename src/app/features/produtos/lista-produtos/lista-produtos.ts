@@ -7,11 +7,12 @@ import { effect } from '@angular/core';
 import { ProdutosService } from '../produtos.service';
 import { inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'app-lista-produtos',
   standalone: true,
-  imports: [Produto, MatButtonModule],
+  imports: [Produto, MatButtonModule, MatCardModule],
   templateUrl: './lista-produtos.html',
   styleUrl: './lista-produtos.css',
 })

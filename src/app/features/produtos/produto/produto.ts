@@ -4,6 +4,8 @@ import { PrecoFormatadoPipe } from '../../../shared/pipes/preco-formatado-pipe';
 import { ListaProdutos } from '../lista-produtos/lista-produtos';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { inject } from '@angular/core';
+import { CarrinhoService } from '../../../core/services/carrinho.service';
 @Component({
   selector: 'app-produto',
   imports: [UpperCasePipe, PrecoFormatadoPipe, MatButtonModule, MatCardModule],

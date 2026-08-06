@@ -14,7 +14,12 @@ export const routes: Routes = [
     {
         path: 'carrinho',
         canActivate: [authGuard],
-        loadComponent: () => import('./features/carrinho/carrinho/carrinho').then((m) => m.Carrinho)
+        loadComponent: () => import('./features/carrinho/carrinho/carrinho').then((m) => m.Carrinho),
+    },
+    {
+        path: 'checkout',
+        loadComponent: () =>
+            import ('./features/checkout/checkout/checkout').then((m) => m.Checkout), //adiciona part e impot de checkout
     },
     {
         path: '**',

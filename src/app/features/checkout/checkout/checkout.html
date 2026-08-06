@@ -1,0 +1,10 @@
+<h2>Checkout</h2>
+<form [formGroup]="formulario">
+
+    <p><input type="text" formeControlName="nome" placeholder="Nome"></p>
+    <p><input type="email" formeControlName="email" placeholder="E-mail" ></p>
+    <p><input type="text" formeControlName="endereco" placeholder="Endereço"></p>
+
+    <button type="button" (click)="finalizar()">Finalizar compra</button>
+</form>
+<!--cria cabecalho de nome, email e endereco -->

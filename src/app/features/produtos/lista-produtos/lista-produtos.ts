@@ -4,10 +4,11 @@ import { computed } from '@angular/core';
 import { PrecoFormatadoPipe } from '../../../shared/pipes/preco-formatado-pipe';
 import { UpperCasePipe } from '@angular/common';
 import { effect } from '@angular/core';
-import { ProdutosService } from '../produtos.service';
+import { ProdutosService } from '../../../core/services/produtos.service';
 import { inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { CarrinhoService } from '../../../core/services/carrinho.service';
 
 @Component({
   selector: 'app-lista-produtos',
@@ -20,7 +21,7 @@ import { MatCardModule } from '@angular/material/card';
 export class ListaProdutos {
 produtos = signal<{ nome: string; preco: number }[]>([]);
 produtoSelecionado = signal<string | null>(null);
-carrinho = signal<{ nome: string; preco: number }[]>([]);
+
 carregando = signal(true);
 erro = signal<string | null>(null)
 totalProdutos = computed(() => this.produtos().length);
@@ -28,13 +29,10 @@ totalProdutos = computed(() => this.produtos().length);
  return this.produtos()
  .reduce((total, item) => total + item.preco, 0);
  });
- quantidadeCarrinho = computed(() => this.carrinho().length);
- totalCarrinho = computed(() => {
- return this.carrinho()
- .reduce((total, item) => total + item.preco, 0);
- });
 
-constructor(private produtosService: ProdutosService) {
+
+
+constructor() {
  
  this.carregarProdutos();
 
@@ -67,6 +65,7 @@ effect(() => {
  }
  });
  }
+
 exibirProduto(nome: string) {
  this.produtoSelecionado.set(nome);
  }
@@ -82,10 +81,15 @@ exibirProduto(nome: string) {
  ]);
  }
  adicionarAoCarrinho(produto: { nome: string; preco: number }) {
-  this.carrinho.update(listaAtual => [
- ...listaAtual,
- produto
- ]);
+  this.carrinhoService.adicionar(produto);
  }
+ 
+
+ //?
+ private produtosService = inject(ProdutosService);
+ public carrinhoService = inject(CarrinhoService);
+
+ quantidadecarrinho = this.carrinhoService.quantidadedeitens;
+ totalCarrinho = this.carrinhoService.totalitens;
 }
   

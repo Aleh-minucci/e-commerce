@@ -1,10 +1,44 @@
 <h2>Checkout</h2>
 <form [formGroup]="formulario">
 
-    <p><input type="text" formeControlName="nome" placeholder="Nome"></p>
-    <p><input type="email" formeControlName="email" placeholder="E-mail" ></p>
-    <p><input type="text" formeControlName="endereco" placeholder="Endereço"></p>
+    <p><input type="text" formControlName="nome" placeholder="Nome"></p>
+    @if(formulario.get('nome')?.touched && formulario.get('nome')?.invalid){
+        @if(formulario.get('nome')?.errors?.['required']){
+    
+            <small style="color: blueviolet;">Nome é Obrigátorio!</small>
+        }
+    }
+    @if(formulario.get('nome')?.errors?.['minlength']){
+        <br>
+        <small style="color: blueviolet;">Nome deve ter no mínimo 3 letras</small>
+    }
+    @if(formulario.get('nome')?.errors?.['numeroInvalido']){
+        <small style="color: blueviolet;">Nome não pode conter Números!</small>
+    }
 
-    <button type="button" (click)="finalizar()">Finalizar compra</button>
+    <p><input type="email" formControlName="email" placeholder="E-mail" ></p>
+    @if(formulario.get('email')?.touched && formulario.get('email')?.invalid){
+        @if(formulario.get('email')?.errors?.['required']){
+             <small style="color: blueviolet;">E-mail é Obrigátorio!</small>
+        }
+    }
+    @if(formulario.get('email')?.errors?.['email']){
+        <br>
+        <small style="color: blueviolet;">E-mail Inválido</small>
+    }
+    
+    <p><input type="text" formControlName="endereco" placeholder="Endereço"></p>
+     @if(formulario.get('endereco')?.touched && formulario.get('endereco')?.invalid){
+        @if(formulario.get('endereco')?.errors?.['required']){
+             <small style="color: blueviolet;">Endereço é Obrigátorio!</small>
+        }
+    }
+    @if(formulario.get('endereco')?.errors?.['minlength']){
+        <br>
+        <small style="color: blueviolet;">Endereço Inválido</small>
+    }
+<br>
+
+    <button type="button" (click)="finalizar()" [disabled]="formulario.invalid">Finalizar compra</button>
 </form>
 <!--cria cabecalho de nome, email e endereco -->

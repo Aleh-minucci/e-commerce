@@ -12,10 +12,10 @@ type ItemCarrinho = {
 })
 
 export class CarrinhoService {
-    //!EStado global
+    
     private carrinho = signal<ItemCarrinho[]>([]);
 
-//? seletores
+
 itens = computed(() => this.carrinho());
 quantidadedeitens = computed(() => this.carrinho().length);
 totalitens = computed(() => 

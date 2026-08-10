@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { inject } from '@angular/core';
-import { ReactiveFormsModule} from '@angular/forms'; //adiciona import de ReactiveFormsModule e de FormGroup. Adiciona export de carrinhoservice
+import { signal } from '@angular/core';
+import { ReactiveFormsModule} from '@angular/forms'; 
 import { FormGroup} from '@angular/forms';
 import { FormControl } from '@angular/forms';
-import { AbstractControl } from '@angular/forms';//..
-import { ValidationErrors } from '@angular/forms'; //..
-import { Validators } from '@angular/forms'; //adiciona esses 3 imports
+import { AbstractControl } from '@angular/forms';
+import { ValidationErrors } from '@angular/forms'; 
+import { Validators } from '@angular/forms'; 
 import { CarrinhoService } from '../../../core/services/carrinho.service';
 
 
@@ -25,18 +26,32 @@ export class Checkout {
     endereco: new FormControl('',[Validators.required, Validators.minLength(5)]),
   });
 
-  finalizar (){
-    if (this.formulario.invalid){
-      console.log('Formulário Inválido!');
+  finalizar () {
+    this.compraFinalizada.set(false); //impede de finalizar a compra se o carrinho tiver vazio
+    if(this.CarrinhoService.carrinhoVazio()){
+      console.log('Não é possivel finalizar a compra com o carrinho vazio!');
       return;
     }
-
+    if(this.formulario.invalid){
+      console.log('Formulário invalido!');
+      this.formulario.markAllAsTouched();
+      return;
+    }
     const dados = this.formulario.value;
     const itens = this.CarrinhoService.itens();
+    const total = this.CarrinhoService.totalitens();
 
-    console.log('Dados do Formulário:', dados);
-    console.log('Itens do Carrinho: ', itens);
+    console.log('Compra finalizada com sucesso!');
+    console.log('Dados do Formulario:', dados);
+    console.log('Itens do carrinho:', itens);
+    console.log('Total da compra:', total);
+
+    this.CarrinhoService.limpar();
+    this.formulario.reset();
+    this.compraFinalizada.set(true);
   }
+
+  compraFinalizada = signal(false); 
 
 }
 

@@ -5,6 +5,7 @@ import { MatIconModule} from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
 import { inject } from '@angular/core';
 import { CarrinhoService } from '../../../core/services/carrinho.service';
+import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -14,7 +15,15 @@ import { CarrinhoService } from '../../../core/services/carrinho.service';
 })
 export class Header {
   nomeLoja = 'Lojinha da Aleh'; //nome do e-commerce
+
   private CarrinhoService = inject(CarrinhoService);
-  quantidade = this.CarrinhoService.quantidadedeitens;
+   quantidade = this.CarrinhoService.quantidadedeitens;
+  private authService = inject(AuthService);
+  usuarioLogado = this.authService.usuarioLogado;
+  usuarioAtual = this.authService.usurioAtual;
+
+sair(){
+  this.authService.logout();
+}
 }
                   

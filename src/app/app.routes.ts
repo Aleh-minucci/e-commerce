@@ -22,6 +22,11 @@ export const routes: Routes = [
             import ('./features/checkout/checkout/checkout').then((m) => m.Checkout), //adiciona part e impot de checkout
     },
     {
+        path:'login',
+        loadComponent:() =>
+            import('./features/login/login/login').then((m) => m.Login),
+    },
+    {
         path: '**',
         redirectTo: '',
     },

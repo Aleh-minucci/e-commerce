@@ -21,7 +21,7 @@ const novaReq = token ?
 //!NOVA REQUISIÇÃO + RESPOSTA DE LOG
 return next(novaReq).pipe(
 tap({
-next: (event) => console.log('RESPONDE:', event),
+next: (event) => console.log('RESPONSE:', event),
 error: (error) => console.error('ERRO:', error),
 }),
 catchError((error) => {

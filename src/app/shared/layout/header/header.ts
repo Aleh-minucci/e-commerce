@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule} from '@angular/material/toolbar';
 import { MatIconModule} from '@angular/material/icon';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { inject } from '@angular/core';
 import { CarrinhoService } from '../../../core/services/carrinho.service';
 import { AuthService } from '../../../core/services/auth.service';
@@ -17,13 +17,16 @@ export class Header {
   nomeLoja = 'Lojinha da Aleh'; //nome do e-commerce
 
   private CarrinhoService = inject(CarrinhoService);
-   quantidade = this.CarrinhoService.quantidadedeitens;
   private authService = inject(AuthService);
+  private router = inject(Router)
   usuarioLogado = this.authService.usuarioLogado;
   usuarioAtual = this.authService.usurioAtual;
+  quantidade = this.CarrinhoService.quantidadedeitens;
+ 
 
 sair(){
   this.authService.logout();
+  this.router.navigateByUrl('/login');
 }
 }
                   

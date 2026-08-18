@@ -1,95 +1,105 @@
-import { Component, signal } from '@angular/core';
+import { Component, effect, signal } from '@angular/core';
 import { Produto } from '../produto/produto';
 import { computed } from '@angular/core';
 import { PrecoFormatadoPipe } from '../../../shared/pipes/preco-formatado-pipe';
 import { UpperCasePipe } from '@angular/common';
-import { effect } from '@angular/core';
 import { ProdutosService } from '../../../core/services/produtos.service';
 import { inject } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
-import { CarrinhoService } from '../../../core/services/carrinho.service';
+import {MatButtonModule} from '@angular/material/button';
+import {MatCardModule} from '@angular/material/card';
+import { CarrinhoFacade } from '../../../core/facades/carrinho.facade';
 
 @Component({
   selector: 'app-lista-produtos',
-  standalone: true,
-  imports: [Produto, MatButtonModule, MatCardModule],
+  imports: [Produto, PrecoFormatadoPipe, UpperCasePipe, MatButtonModule, MatCardModule],
   templateUrl: './lista-produtos.html',
   styleUrl: './lista-produtos.css',
 })
-
 export class ListaProdutos {
-produtos = signal<{ nome: string; preco: number }[]>([]);
-produtoSelecionado = signal<string | null>(null);
 
-carregando = signal(true);
-erro = signal<string | null>(null)
-totalProdutos = computed(() => this.produtos().length);
- valorTotal = computed(() => {
- return this.produtos()
- .reduce((total, item) => total + item.preco, 0);
- });
-
-
-
-constructor() {
+ produtos = signal < { nome: string; preco: number } []> ([]);
  
- this.carregarProdutos();
+ carregando = signal(true);
 
- effect(() => {
- console.log('Lista de produtos alterada:', this.produtos());
- });
- effect(() => {
- console.log('Valor total atualizado:', this.valorTotal());
- });
-effect(() => {
- if (typeof document !== 'undefined') {
- document.title = `(${this.totalProdutos()}) Minha Loja`;
- }
- });
- }
- carregarProdutos() {
- this.carregando.set(true);
+ erro = signal <string | null> (null)
 
- this.produtosService.buscarProdutos().subscribe({
- next: (dados) => {
- const produtos = this.produtosService.transformarProdutos(dados);
- this.produtos.set(produtos);
- this.carregando.set(false);
- },
+carregarProdutos(){
 
- error: (erro) => {
- console.error('Erro ao carregar produtos:,', erro);
- this.erro.set('Erro ao carregar os produtos. Verifique sua conexão e tente novamente!');
- this.carregando.set(false); 
- }
- });
- }
+  this.carregando.set(true);//! Ativa Loading
+  this.erro.set(null)//? Limpa o erro anterior
 
-exibirProduto(nome: string) {
- this.produtoSelecionado.set(nome);
- }
- adicionarProduto() {
- this.produtos.update(listaAtual => [
- ...listaAtual,
- { nome: 'Teclado', preco: 250 }
- ]);
- }
- substituirProdutos() {
- this.produtos.set([
- { nome: 'Produto novo', preco: 999 }
- ]);
- }
- adicionarAoCarrinho(produto: { nome: string; preco: number }) {
-  this.carrinhoService.adicionar(produto);
- }
- 
-
- //?
- private produtosService = inject(ProdutosService);
- public carrinhoService = inject(CarrinhoService);
-
- quantidadecarrinho = this.carrinhoService.quantidadedeitens;
- totalCarrinho = this.carrinhoService.totalitens;
+  this.ProdutosService.buscarProdutos().subscribe({
+        next: (dados) => {
+          const produtos = this.ProdutosService.transformarProdutos(dados);
+          this.produtos.set(produtos);
+          this.carregando.set(false);
+        },
+        error: (erro) => {
+          console.error('Erro ao carregar os Produtos: ', erro);
+          this.erro.set('Erro ao carregar Produtos. Verifique sua conexão e tente novamente.');
+          this.carregando.set(false);
+        },
+  });
 }
-  
+
+
+  exibirProduto(nome: string) {
+    //console.log('Produto selecionado: ', nome);
+    this.produtoSelecionado.set(nome);
+  }
+
+  adicionarProduto() { 
+    this.produtos.update((listaAtual) => [
+      ...listaAtual, { nome: 'Processador Core I5 14550FS', preco: 2500.00 },
+    ]);
+  }
+  totalProdutos = computed(() => this.produtos().length);
+
+  valorTotal = computed(() => {
+    return this.produtos().reduce
+    ((total, item) => total + item.preco, 0);
+  });
+substituirProduto() {
+    this.produtos.set([
+      {nome: 'Teclado', preco: 40.00},
+       {nome: 'Mouse', preco: 10.00},
+        {nome: 'Monitor', preco: 100.00},
+         {nome: 'Desktop', preco: 500.00},
+          {nome: 'Headset', preco: 25.00 },
+    ]);
+  }
+
+  constructor(){
+
+
+    this.carregarProdutos();
+
+  effect(() => {
+    console.log('Lista de Produtos Alterados: ', this.produtos());
+
+  });
+  effect(() =>{
+    console.log('Valor Total Atualizados: ', this.valorTotal());
+
+  });
+  effect(() => {
+    if (typeof document !== 'undefined') {
+      document.title = `(${this.totalProdutos()}) Minha Loja`;
+
+    }
+  });
+ }
+ 
+ produtoSelecionado = signal <string | null > (null);
+ 
+ adicionarAoCarrinho(produto: {nome: string; preco: number}){
+    this.carrinhoFacade.adicionarProdutoCarrinho(produto);
+  }
+
+//? ================ INJECT ====================
+private ProdutosService = inject (ProdutosService);
+public carrinhoFacade = inject (CarrinhoFacade);
+
+quantidadeCarrinho = this.carrinhoFacade.quantidadeCarrinho;
+totalCarrinho = this.carrinhoFacade.totalCarrinho;
+}

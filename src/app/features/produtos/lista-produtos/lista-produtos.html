@@ -31,9 +31,9 @@
 <section>
   <hr />
   <h2>Carrinho:</h2>
-  @for (item of carrinhoService.itens(); track $index) {
+  @for (item of carrinhoFacade.itensCarrinho(); track $index) {
     <p>{{ item.nome }} -{{ item.preco.toFixed(2) }}</p>
   }
-  <p><strong>Itens no carrinho:</strong> {{ carrinhoService.quantidadedeitens() }}</p>
-  <p><strong>Total do Carrinho:</strong> {{ carrinhoService.totalitens() }}</p>
+  <p><strong>Itens no carrinho:</strong> {{ carrinhoFacade.quantidadeCarrinho() }}</p>
+  <p><strong>Total do Carrinho:</strong> {{ carrinhoFacade.totalCarrinho() | precoFormatado }}</p>
 </section>

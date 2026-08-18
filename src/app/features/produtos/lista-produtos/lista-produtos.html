@@ -22,18 +22,9 @@
         [preco]="item.preco"
         (produtoAdicionado)="adicionarAoCarrinho($event)"
         (produtoSelecionado)="exibirProduto($event)"
-      ></app-produto>
+      >
+      </app-produto>
     }
   </section>
-   
   }
   
-<section>
-  <hr />
-  <h2>Carrinho:</h2>
-  @for (item of carrinhoFacade.itensCarrinho(); track $index) {
-    <p>{{ item.nome }} -{{ item.preco.toFixed(2) }}</p>
-  }
-  <p><strong>Itens no carrinho:</strong> {{ carrinhoFacade.quantidadeCarrinho() }}</p>
-  <p><strong>Total do Carrinho:</strong> {{ carrinhoFacade.totalCarrinho() | precoFormatado }}</p>
-</section>

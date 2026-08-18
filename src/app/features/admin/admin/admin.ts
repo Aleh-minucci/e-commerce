@@ -3,7 +3,7 @@ import { computed } from '@angular/core';
 import { inject } from '@angular/core';
 import { signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService } from '../../../core/services/auth.service';
+import { AuthFacade } from '../../../core/facades/auth.facade'; 
 
 @Component({
   selector: 'app-admin',
@@ -13,7 +13,7 @@ import { AuthService } from '../../../core/services/auth.service';
 })
 export class Admin {
 
-  private authService = inject(AuthService);
+  private authFacade = inject(AuthFacade);
   private router = inject(Router);
 
   // simulação - indicadores 
@@ -21,7 +21,7 @@ export class Admin {
   pedidosPendentes = signal(3);
   usuariosCadastrados = signal(8);
 
-  usuarioAtual = this.authService.usurioAtual;
+  usuarioAtual = this.authFacade.usuarioAtual;
 
   mensagemPerfil = computed(() => {
     
@@ -34,7 +34,7 @@ export class Admin {
   });
 
   sair(){
-    this.authService.logout();
+    this.authFacade.sair();
     this.router.navigateByUrl('/login');
   }
 }

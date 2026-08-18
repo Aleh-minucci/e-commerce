@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { AuthService } from '../../../core/services/auth.service';
+import { AuthFacade } from '../../../core/facades/auth.facade'; 
 
 
 @Component({
@@ -10,6 +10,6 @@ import { AuthService } from '../../../core/services/auth.service';
   styleUrl: './acesso-negado.css',
 })
 export class AcessoNegado {
-  private authService = inject(AuthService); //!teste em producao
-  sair = this.authService.logout(); //!teste em producao
+  private authFacade = inject(AuthFacade); //!teste em producao
+  sair = this.authFacade.sair(); //!teste em producao
 }

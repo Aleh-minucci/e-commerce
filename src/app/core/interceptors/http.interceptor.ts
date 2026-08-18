@@ -1,15 +1,15 @@
 import { HttpInterceptorFn } from '@angular/common/http';
 import { tap, catchError, throwError } from 'rxjs';
 import { inject } from '@angular/core';
-import { AuthService } from '../services/auth.service';
+import { AuthFacade } from '../facades/auth.facade'; 
 
 export const httpInterceptor: HttpInterceptorFn = (req, next) => {
 
-    const authService = inject(AuthService);
+    const authFacade = inject(AuthFacade);
 //!NOVO METODO DE 
 console.log('Requisição', req.url);
 //!REQUISIÇÃO DE LOG
-const token = authService.obterToken();
+const token = authFacade.obterPerfil();
 //!TOKEN
 const novaReq = token ?
  req.clone({

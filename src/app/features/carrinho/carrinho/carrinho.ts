@@ -18,7 +18,7 @@ private router = inject(Router);
 private authFacade = inject(AuthFacade);
 
 removerItem (rmvItem:number){
-  this.carrinhoFacade.limparCarrinho();
+  this.carrinhoFacade.removerItem(rmvItem);
 }
 
 limparCarrinho(){

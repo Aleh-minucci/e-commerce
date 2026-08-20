@@ -12,7 +12,15 @@ import { RouterLink } from "@angular/router";
 import { Router } from '@angular/router';
 import { AuthFacade } from '../../../core/facades/auth.facade';
 import { PrecoFormatadoPipe } from '../../../shared/pipes/preco-formatado-pipe';
+import { ItemCarrinho } from '../../../core/models/item-carrinho';
 
+type PedidoFinalizado = { //===========================================
+  codigo: number;
+  cliente: string;
+  quantidadeItens: number;
+  total: number;
+  itens: ItemCarrinho[];
+}
 
 @Component({
   selector: 'app-checkout',
@@ -20,7 +28,11 @@ import { PrecoFormatadoPipe } from '../../../shared/pipes/preco-formatado-pipe';
   templateUrl: './checkout.html',
   styleUrl: './checkout.css',
 })
+
 export class Checkout {
+
+  pedidoFinalizado =signal<PedidoFinalizado | null> (null);
+  //compraFinalizada = signal(false); 
 
   CarrinhoFacade = inject(CarrinhoFacade);
   router = inject(Router);
@@ -33,7 +45,8 @@ export class Checkout {
   });
 
   finalizar () {
-    this.compraFinalizada.set(false); //impede de finalizar a compra se o carrinho tiver vazio
+    this.pedidoFinalizado.set(null);
+    //this.compraFinalizada.set(false); 
     if(this.CarrinhoFacade.carrinhoVazio()){
       console.log('Não é possivel finalizar a compra com o carrinho vazio!');
       return;
@@ -47,17 +60,25 @@ export class Checkout {
     const itens = this.CarrinhoFacade.itensCarrinho();
     const total = this.CarrinhoFacade.totalCarrinho();
 
+    const pedido: PedidoFinalizado = { //==================================
+      codigo: Date.now(),
+      cliente: dados.nome ?? '',
+      quantidadeItens: itens.length,
+      total,
+      itens,
+    }  //=========================================AQUI
+
     console.log('Compra finalizada com sucesso!');
     console.log('Dados do Formulario:', dados);
-    console.log('Itens do carrinho:', itens);
-    console.log('Total da compra:', total);
+    console.log('Dados do Pedido:', pedido);  //===========apaga e atualiza
 
     this.CarrinhoFacade.limparCarrinho();
     this.formulario.reset();
-    this.compraFinalizada.set(true);
+    //this.compraFinalizada.set(true);
+    this.pedidoFinalizado.set(pedido);
   }
 
-  compraFinalizada = signal(false); 
+  
 
   sair(){
     this.router.navigateByUrl('/login');

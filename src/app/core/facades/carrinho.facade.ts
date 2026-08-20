@@ -10,8 +10,8 @@ export class CarrinhoFacade {
     private carrinhoService = inject(CarrinhoService);
 
     itensCarrinho = this.carrinhoService.itens;
-    quantidadeCarrinho = this.carrinhoService.quantidadedeitens;
-    totalCarrinho = this.carrinhoService.totalitens;
+    quantidadeCarrinho = this.carrinhoService.quantidadeItens;
+    totalCarrinho = this.carrinhoService.totalItens;
     carrinhoVazio = this.carrinhoService.carrinhoVazio;
 
     adicionarProdutoCarrinho(produto:ItemCarrinho){

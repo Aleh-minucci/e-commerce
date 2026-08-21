@@ -9,20 +9,26 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatCardModule} from '@angular/material/card';
 import { CarrinhoFacade } from '../../../core/facades/carrinho.facade';
 import { ItemCarrinho } from '../../../core/models/item-carrinho';
+import { RouterLink } from '@angular/router';
+import { ProdutoLoja } from '../../../core/models/produto-loja';
 
 @Component({
   selector: 'app-lista-produtos',
-  imports: [Produto, PrecoFormatadoPipe, UpperCasePipe, MatButtonModule, MatCardModule],
+  imports: [Produto, PrecoFormatadoPipe, UpperCasePipe, MatButtonModule, MatCardModule, RouterLink],
   templateUrl: './lista-produtos.html',
   styleUrl: './lista-produtos.css',
 })
 export class ListaProdutos {
 
- produtos = signal < { nome: string; preco: number } []> ([]);
+ produtos = signal < ProdutoLoja []> ([]);   //===============AUUQUI
  
  carregando = signal(true);
 
+ produtoSelecionado = signal <string | null> (null);
+
  erro = signal <string | null> (null)
+
+valorTotalFormado = computed(() => this.valorTotal().toFixed(2));
 
 carregarProdutos(){
 
@@ -74,15 +80,6 @@ substituirProduto() {
 
 
     this.carregarProdutos();
-
-  effect(() => {
-    console.log('Lista de Produtos Alterados: ', this.produtos());
-
-  });
-  effect(() =>{
-    console.log('Valor Total Atualizados: ', this.valorTotal());
-
-  });
   effect(() => {
     if (typeof document !== 'undefined') {
       document.title = `(${this.totalProdutos()}) Minha Loja`;
@@ -91,7 +88,6 @@ substituirProduto() {
   });
  }
  
- produtoSelecionado = signal <string | null > (null);
  
  adicionarAoCarrinho(produto:ItemCarrinho){
     this.carrinhoFacade.adicionarProdutoCarrinho(produto);

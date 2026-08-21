@@ -1,30 +1,64 @@
-  <h2>Produtos:</h2>
+<section class="pagina-produtos">
+  <header class="cabecalho-produtos">
+    <div>
+      <h2>Produtos</h2>
+      <p>Escolha os produtos e adicione-os ao carrinho</p>
+    </div>
+    <button mat-stroked-button color="primary" type="button" routerLink="/carrinho"> Ver carrinho | {{carrinhoFacade.quantidadeCarrinho()}}</button>
+  </header>
+
+  
+<h2>Produtos:</h2>
   @if (carregando()) {
     <p>Carregando produtos...</p>
   }
 
-  @if (erro()) {
-    <div class="container-erro">
-      <p style="color: rgb(174, 0, 255);">
-        {{ erro() }}
-      </p>
-      <button (click)="carregarProdutos()">Tentar novamente</button>
-    </div>
-  }
+@if (erro()) {
+  <section class="mensagem-erro">
+    <p>{{ erro ()}}</p>
+    <button mat-stroked-button color="primary" (click)="carregarProdutos()">Tentar Novamente</button>
+
+  </section>
+}
+
 
   @if (!carregando() && !erro()) {
-    <h2>Total de produtos: {{ totalProdutos() }}</h2>
-
-    <section class="grid-produtos"> 
-       @for (item of produtos(); track item.nome) {
-      <app-produto
-        [nome]="item.nome"
-        [preco]="item.preco"
-        (produtoAdicionado)="adicionarAoCarrinho($event)"
+    <section class="resumo-produtos">
+      <p><strong>Total de produtos: </strong>{{totalProdutos()}}</p>
+      <p><strong>Valor total dos produtos</strong>R$ {{valorTotalFormado()}}</p>
+    </section>
+    <hr/>
+    <section class="grind-produtos">
+      @for(item of produtos(); track $index){
+        <app-produto
+        [nome] = "item.nome"
+        [preco] = "item.preco"
         (produtoSelecionado)="exibirProduto($event)"
-      >
-      </app-produto>
-    }
-  </section>
+        (produtoAdicionado)="adicionarAoCarrinho($event)"
+        >
+
+        </app-produto>
+      }
+    </section>
   }
-  
+<!--<hr>
+<section class="produto-selecionado">
+  <h3>Produto Selecionado</h3>
+  @if(produtoSelecionado()){
+    <p class="texto-sucesso">
+      <strong>{{produtoSelecionado()}}</strong>
+    </p>
+  }@else {
+    <p class="texto-neutro">
+      <strong>Nenhum Produto Selecionado</strong>
+    </p>
+  }
+</section>-->
+
+</section>
+<br>
+<section class="rodape">
+  <div>
+
+  </div>
+</section>

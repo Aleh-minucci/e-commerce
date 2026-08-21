@@ -1,3 +1,4 @@
+<section class="pagina-checkout">
 <h2>Checkout</h2>
 
 @if(pedidoFinalizado()){   <!--atualiza-->
@@ -26,8 +27,9 @@
         <button type="button" routerLink="/carrinho"> Revisar carrinho</button>
     </section>
 }
+
 <hr>
-<form [formGroup]="formulario">
+<form [formGroup]="formulario" class="form">
 
     <p><input type="text" formControlName="nome" placeholder="Nome"></p>
     @if(formulario.get('nome')?.touched && formulario.get('nome')?.invalid){
@@ -68,5 +70,7 @@
 <br>
 
     <button type="button" (click)="finalizar()" [disabled]="formulario.invalid">Finalizar compra</button>
+    
 </form>
 <!--cria cabecalho de nome, email e endereco -->
+</section>

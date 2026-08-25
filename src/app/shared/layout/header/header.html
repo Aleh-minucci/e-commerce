@@ -1,13 +1,18 @@
 <mat-toolbar color="primary">
     <a routerLink="/"> {{ nomeLoja | uppercase }} </a>
     <span class="flex-spacer"></span>
+     <button mat-button routerLink="Home">Início</button>
     <button mat-button routerLink="/produtos">Produtos</button>
     <button mat-button routerLink="/carrinho"> Carrinho {{ quantidade() }}</button> 
-    <button mat-button routerLink="Home">Home</button>
     <buttom mat-button routerLink="/checkout">Checkout</buttom> 
     <button mat-button routerLink="/admin">Admin</button>
+    <button mat-button routerLink="/favoritos">Favoritos</button>
     @if(usuarioLogado()){
         <span class="email-header">{{usuarioAtual()?.email}}</span>
+        <a routerLink="/produtos/favoritos" class="btn-favoritos">
+            <span class="icon❤️"></span>
+            <span>Favoritos</span>
+        </a>
         <button class="btn-sair" mat-button type="button" (click)="sair()">Sair</button>
     }@else {
         <button class="btn-entrar" mat-button type="button" routerLink="/login">Entrar</button>

@@ -1,26 +1,29 @@
 import { Component, signal } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
 import { RouterLink } from "@angular/router";
+import { FavoritosService } from '../../../core/services/favoritos.service';
+import { get } from 'http';
 
 @Component({
   selector: 'app-favoritos',
-  imports: [FormsModule, RouterLink],
+  standalone: true,
+  imports: [CommonModule, RouterLink, MatButtonModule, MatCardModule],
   templateUrl: './favoritos.html',
   styleUrl: './favoritos.css',
 })
 export class Favoritos {
-  favoritos = signal<string[]>([]);
 
-  novoProduto: string = '';
+  constructor (
+    private FavoritosService: FavoritosService
+  ) {}
 
-  adicionarFavorito(): void {
-    const produtoFormatado = this.novoProduto.trim();
-    if (produtoFormatado) {
-      this.favoritos.update(lista => [...lista, produtoFormatado]);
-    }
+  get favoritos() {
+    return this.FavoritosService.favoritos;
   }
 
-  removerFavoritos(produtoRemover: string): void {
-    this.favoritos.update(lista => lista.filter(item => item !== produtoRemover));
+  removerItens(produto: string) {
+    this.FavoritosService.removerFavoritos(produto);
   }
 }

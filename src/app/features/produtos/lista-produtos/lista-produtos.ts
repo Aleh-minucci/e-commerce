@@ -11,6 +11,7 @@ import { CarrinhoFacade } from '../../../core/facades/carrinho.facade';
 import { ItemCarrinho } from '../../../core/models/item-carrinho';
 import { RouterLink } from '@angular/router';
 import { ProdutoLoja } from '../../../core/models/produto-loja';
+import { FavoritosService } from '../../../core/services/favoritos.service';
 
 @Component({
   selector: 'app-lista-produtos',
@@ -91,7 +92,9 @@ substituirProduto() {
  
  adicionarAoCarrinho(produto:ItemCarrinho){
     this.carrinhoFacade.adicionarProdutoCarrinho(produto);
-  }
+  };
+
+
 
 //? ================ INJECT ====================
 private ProdutosService = inject (ProdutosService);
